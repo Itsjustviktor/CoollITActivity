@@ -3,6 +3,14 @@ from sklearn import linear_model
 import matplotlib.pyplot as plt
 from PIL import Image
 
+def lin_reg(X, y, im):
+    predicted = np.zeros([im.height, im.width])
+    for i in range(im.height):
+    lm = linear_model.LinearRegression()
+    lm.fit(X, y[i])
+    predicted[i] = lm.predict(X)
+    return predicted
+
 def ImWork(data, im, h):
 
     x = np.arange(0, im.width)
@@ -23,21 +31,10 @@ def ImWork(data, im, h):
     y_green = data[:, :, 1]
     y_blue = data[:, :, 2]
 
-    predicted_red = np.zeros([im.height, im.width])
-    predicted_green = np.zeros([im.height, im.width])
-    predicted_blue = np.zeros([im.height, im.width])
-    for i in range(im.height):
-        lm = linear_model.LinearRegression()
-        lm.fit(X, y_red[i])
-        predicted_red[i] = lm.predict(X)
-    for i in range(im.height):
-        lm = linear_model.LinearRegression()
-        lm.fit(X, y_green[i])
-        predicted_green[i] = lm.predict(X)
-    for i in range(im.height):
-        lm = linear_model.LinearRegression()
-        lm.fit(X, y_blue[i])
-        predicted_blue[i] = lm.predict(X)
+    predicted_red = lin_reg(X, y_red, im)
+    predicted_green = lin_reg(X, y_green, im)
+    predicted_blue = lin_reg(X, y_blue, im)
+    
 
     # кодирование разностей
     raz_red = y_red - predicted_red
@@ -67,13 +64,14 @@ def ImWork(data, im, h):
             pix[i, j] = tuple(l)
     tr = 'pract6\\ready'+str(h)+'.png'
     im.save(tr)
-    return True
+    return True, tr
 
 im = Image.open('D:\\visual studio\\laba Python\\LR1\\pract6\\image.jpg')
 data = np.array(im.getdata()).reshape([im.height, im.width, 3])
 h = int(input("Введите кол-во бит: "))
-if ImWork(data, im, h):
-    print('Сжатие выполнено')
+ch, way = ImWork(data, im, h)
+if ch:
+    print('Сжатие выполнено. Путь к файлу: ', way)
 
 
 

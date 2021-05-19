@@ -8,10 +8,9 @@ def fibonacci(n):
     if n in (1, 2):
         return 1
     return fibonacci(n - 1) + fibonacci(n - 2)
-i=1
-while (i <= 13):
-    print (fibonacci(i))
-    i+=1
+
+for i in range(1, 14):
+    print(fibonacci(i))
 
 ## задание 9
 try:
@@ -28,11 +27,8 @@ except:
 
 ## задание 10
 def mass(n):
-    arr = []
-    for i in range(n):
-        arr.append(rnd.random())
-    a = (max(arr), min(arr))
-    return arr, a
+    arr = [rnd.random() for i in range(n)]
+    return arr, (min(arr), max(arr))
 
 
 n = int(input("Введите размерность массива: "))

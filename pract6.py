@@ -6,9 +6,9 @@ from PIL import Image
 def lin_reg(X, y, im):
     predicted = np.zeros([im.height, im.width])
     for i in range(im.height):
-    lm = linear_model.LinearRegression()
-    lm.fit(X, y[i])
-    predicted[i] = lm.predict(X)
+        lm = linear_model.LinearRegression()
+        lm.fit(X, y[i])
+        predicted[i] = lm.predict(X)
     return predicted
 
 def ImWork(data, im, h):
